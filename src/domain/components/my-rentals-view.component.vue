@@ -1,7 +1,7 @@
 <template>
   <section class="rentals-section" role="region" aria-label="My Rentals">
     <header class="rentals-header">
-      <h2>{{ $t('myRentals.title') }}</h2>
+      <h2>📃 {{ $t('myRentals.title') }}</h2>
       <div class="rentals-actions">
         <button class="btn-secondary" @click="goBack">
           {{ $t('buttons.backToMenu') }}
@@ -19,20 +19,19 @@
           :key="rental.id"
           class="rental-card"
           role="article"
-          :aria-label="`${rental.brand} ${rental.model}`"
+          :aria-label="`${rental.model}`"
       >
         <img
             :src="rental.image"
-            :alt="`${rental.brand} ${rental.model}`"
+            :alt="rental.model"
             class="rental-image"
         />
         <div class="rental-details">
-          <h3>{{ rental.brand }} {{ rental.model }}</h3>
-          <p>{{ rental.year }}</p>
-          <p>
-            {{ $t('myRentals.daysRented') }}:
-            {{ rental.days }} {{ $t('myRentals.days') }}
-          </p>
+          <h3>{{ rental.model }}</h3>
+          <p>{{ $t('myRentals.price') }}: ${{ rental.price }}</p>
+          <button class="btn-secondary" @click="releaseRental(rental.vehicleId)">
+            {{ $t('myRentals.release') }}
+          </button>
         </div>
       </div>
     </div>
@@ -42,24 +41,33 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const { t } = useI18n();
+const router = useRouter();
+
 const rentals = ref([]);
 
 const goBack = () => {
-  window.history.back();
+  router.push('/');
 };
 
-onMounted(async () => {
-  try {
-    const response = await axios.get('https://raw.githubusercontent.com/1ASI0730-2510-4381-G5-RENT2GO/rent2go-fake-api/main/db.json');
-    rentals.value = response.data;
-  } catch (error) {
-    console.error('Error fetching rentals:', error);
-  }
-});
+const loadRentals = () => {
+  const storedReservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+  rentals.value = storedReservations;
+};
+
+const releaseRental = (vehicleId) => {
+  let storedReservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+  storedReservations = storedReservations.filter(r => r.vehicleId !== vehicleId);
+  localStorage.setItem('reservations', JSON.stringify(storedReservations));
+  rentals.value = storedReservations;
+  alert(t('myRentals.releaseSuccess'));
+};
+
+onMounted(loadRentals);
 </script>
+
 
 <style scoped>
 .rentals-section {

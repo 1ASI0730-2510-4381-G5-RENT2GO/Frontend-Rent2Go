@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://raw.githubusercontent.com/1ASI0730-2510-4381-G5-RENT2GO/rent2go-fake-api/main/db.json',
+    //baseURL: 'http://localhost:3001',
+    baseURL: 'https://rent2go-cars.free.beeceptor.com/vehicules',
     headers: {
         'Content-Type': 'application/json',
     },

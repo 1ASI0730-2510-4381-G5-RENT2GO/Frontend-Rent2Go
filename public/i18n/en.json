@@ -28,15 +28,20 @@
 
 
   "gallery": {
-    "loading": "Loading",
-    "noCars": "No cars available.",
-    "refreshCars": "Refresh Cars"
+    "reserve": "Reserve",
+    "reservationSuccess": "Vehicle reserved successfully!",
+    "alreadyReserved": "This vehicle is already reserved.",
+    "refreshCars": "Refresh Cars",
+    "loading": "Loading cars",
+    "noCars": "No cars available",
+    "price": "Price"
   },
   "myRentals": {
+    "release": "Release",
+    "releaseSuccess": "Vehicle released successfully!",
     "title": "My Rentals",
-    "noRentals": "You have no rentals registered.",
-    "daysRented": "Days rented",
-    "days": "days"
+    "noRentals": "No vehicles rented yet.",
+    "price": "Price"
   },
   "addVehicle": {
     "title": "Add Vehicle",

@@ -26,12 +26,15 @@
           :key="car.id"
           class="car-card"
           role="article"
-          :aria-label="car.name"
+          :aria-label="car.model"
       >
-        <img :src="car.image" :alt="car.name" class="car-image" />
-        <h3>{{ car.name }}</h3>
+        <img :src="car.image" :alt="car.model" class="car-image" />
+        <h3>{{ car.model }}</h3>
         <p>{{ car.description || '' }}</p>
         <p>{{ $t('gallery.price') }}: ${{ car.price }}</p>
+        <button class="btn-primary" @click="reserveCar(car)">
+          {{ $t('gallery.reserve') }}
+        </button>
       </div>
     </div>
   </section>
@@ -50,9 +53,17 @@ const loading = ref(false);
 const fetchCars = async () => {
   loading.value = true;
   try {
-    const response = await fetch('https://raw.githubusercontent.com/1ASI0730-2510-4381-G5-RENT2GO/rent2go-fake-api/main/db.json');
+    //const response = await fetch('http://localhost:3001/vehicles'); //local json-server --watch server/db.json --port 3001
+    const response = await fetch('https://rent2go-cars.free.beeceptor.com/vehicules');
     const data = await response.json();
-    cars.value = data.vehicles || [];
+    console.log('Api Response:', data); //
+
+
+    const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+    const reservedVehicleIds = reservations.map(r => r.vehicleId);
+
+    //cars.value = data.filter(car => !reservedVehicleIds.includes(car.id)); // Local
+    cars.value = (data.vehicles || []).filter(car => !reservedVehicleIds.includes(car.id)); // Beeceptor
   } catch (error) {
     console.error('Error fetching cars:', error);
     cars.value = [];
@@ -63,6 +74,28 @@ const fetchCars = async () => {
 
 const goHome = () => {
   router.push('/');
+};
+
+const reserveCar = (car) => {
+  const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+
+  if (reservations.find(r => r.vehicleId === car.id)) {
+    alert(t('gallery.alreadyReserved'));
+    return;
+  }
+
+  reservations.push({
+    id: Date.now(),
+    vehicleId: car.id,
+    model: car.model,
+    image: car.image,
+    price: car.price,
+  });
+
+  localStorage.setItem('reservations', JSON.stringify(reservations));
+  alert(t('gallery.reservationSuccess'));
+
+  cars.value = cars.value.filter(c => c.id !== car.id);
 };
 
 onMounted(fetchCars);

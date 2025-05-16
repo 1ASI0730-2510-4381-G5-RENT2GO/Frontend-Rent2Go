@@ -78,20 +78,21 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { addVehicle } from '../services/vehicule.service.js';
 
+const router = useRouter();
 const { t } = useI18n();
 
 const model = ref('');
 const price = ref(null);
-const image = ref('');
 const category = ref('');
+const image = ref('');
 const features = ref('');
 
 async function addVehicleHandler() {
   if (model.value && price.value > 0 && image.value && category.value && features.value) {
     const newVehicle = {
-      id: Date.now(),
       model: model.value,
       price: price.value,
       image: image.value,
@@ -102,20 +103,17 @@ async function addVehicleHandler() {
     await addVehicle(newVehicle);
     alert(t('addVehicle.success'));
 
-    model.value = '';
-    price.value = null;
-    image.value = '';
-    category.value = '';
-    features.value = '';
+    router.push('/gallery');
   } else {
     alert(t('addVehicle.error'));
   }
 }
 
 function goToGallery() {
-  window.location.href = '/gallery';
+  router.push('/gallery');
 }
 </script>
+
 
 <style scoped>
 .add-vehicle-section {

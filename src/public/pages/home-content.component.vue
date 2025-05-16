@@ -60,9 +60,9 @@ section {
 }
 
 .card:hover {
-  background-color: #006aff; /* Color de fondo al pasar el mouse */
-  color: white; /* Cambiar el color del texto al pasar el mouse */
-  transform: translateY(-5px); /* Efecto de levantar el card */
+  background-color: #006aff;
+  color: white;
+  transform: translateY(-5px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 

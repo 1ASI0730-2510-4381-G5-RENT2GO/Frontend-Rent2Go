@@ -28,15 +28,20 @@
 
 
   "gallery": {
-    "loading": "Cargando",
-    "noCars": "No hay autos disponibles.",
-    "refreshCars": "Actualizar autos"
+    "reserve": "Reservar",
+    "reservationSuccess": "¡Vehículo reservado con éxito!",
+    "alreadyReserved": "Este vehículo ya está reservado.",
+    "refreshCars": "Actualizar autos",
+    "loading": "Cargando autos",
+    "noCars": "No hay autos disponibles",
+    "price": "Precio"
   },
   "myRentals": {
+    "release": "Liberar",
+    "releaseSuccess": "¡Vehículo liberado con éxito!",
     "title": "Mis Alquileres",
-    "noRentals": "No tienes alquileres registrados.",
-    "daysRented": "Días alquilado",
-    "days": "días"
+    "noRentals": "Aún no has alquilado ningún vehículo.",
+    "price": "Precio"
   },
   "addVehicle": {
     "title": "Agregar Vehículo",
